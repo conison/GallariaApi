@@ -55,6 +55,111 @@ public class WorkflowService {
     public Map<String, Object> getWorkflowWithLogs(String processInstanceId) {
         Map<String, Object> response = new HashMap<>();
 
+      /*  String bpmnXml = """
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns:epwf="http://workflow.ep.gs.com/bpmn"
+                   xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                   xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                   xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                   xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                   id="_joFyELi7EeODZeaR-vkO-Q"
+                   targetNamespace="http://activiti.org/bpmn"
+                   xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+                   epwf:modelVersion="1.1.5">
+
+  <bpmn2:process id="com.gs.fi.we.appcentral.fileCopy.approval"
+                 name="AppCentral fileCopy approval"
+                 isExecutable="true">
+
+    <bpmn2:startEvent id="StartEvent_1">
+      <bpmn2:outgoing>Flow_05xo2wu</bpmn2:outgoing>
+    </bpmn2:startEvent>
+
+    <bpmn2:sequenceFlow id="Flow_05xo2wu" sourceRef="StartEvent_1" targetRef="Gateway_Ommyuvn"/>
+
+    <bpmn2:exclusiveGateway id="Gateway_Ommyuvn" default="Flow_Oea555q">
+      <bpmn2:incoming>Flow_05xo2wu</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1tmk3bm</bpmn2:outgoing>
+      <bpmn2:outgoing>Flow_Oea555q</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+
+    <bpmn2:userTask id="Activity_1pvxpw8" name="Tech Risk Approval">
+      <bpmn2:incoming>Flow_1tmk3bm</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Obcu3zx</bpmn2:outgoing>
+    </bpmn2:userTask>
+
+    <bpmn2:serviceTask id="Activity_17f3597" name="Copy package to onshore">
+      <bpmn2:incoming>Flow_Obcu3zx</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_Ovb84qk</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+
+    <bpmn2:endEvent id="EndEvent_1">
+      <bpmn2:incoming>Flow_Ovb84qk</bpmn2:incoming>
+    </bpmn2:endEvent>
+
+    <bpmn2:sequenceFlow id="Flow_1tmk3bm" sourceRef="Gateway_Ommyuvn" targetRef="Activity_1pvxpw8"/>
+    <bpmn2:sequenceFlow id="Flow_Obcu3zx" sourceRef="Activity_1pvxpw8" targetRef="Activity_17f3597"/>
+    <bpmn2:sequenceFlow id="Flow_Ovb84qk" sourceRef="Activity_17f3597" targetRef="EndEvent_1"/>
+    <bpmn2:sequenceFlow id="Flow_Oea555q" sourceRef="Gateway_Ommyuvn" targetRef="EndEvent_1"/>
+
+  </bpmn2:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="com.gs.fi.we.appcentral.fileCopy.approval">
+
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="100" y="180" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Gateway_Ommyuvn_di" bpmnElement="Gateway_Ommyuvn" isMarkerVisible="true">
+        <dc:Bounds x="160" y="175" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Activity_1pvxpw8_di" bpmnElement="Activity_1pvxpw8">
+        <dc:Bounds x="240" y="160" width="120" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Activity_17f3597_di" bpmnElement="Activity_17f3597">
+        <dc:Bounds x="390" y="160" width="160" height="80"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
+        <dc:Bounds x="580" y="180" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="Flow_05xo2wu_di" bpmnElement="Flow_05xo2wu">
+        <di:waypoint x="136" y="198"/>
+        <di:waypoint x="160" y="198"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_1tmk3bm_di" bpmnElement="Flow_1tmk3bm">
+        <di:waypoint x="210" y="198"/>
+        <di:waypoint x="240" y="198"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_Obcu3zx_di" bpmnElement="Flow_Obcu3zx">
+        <di:waypoint x="360" y="198"/>
+        <di:waypoint x="390" y="198"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_Ovb84qk_di" bpmnElement="Flow_Ovb84qk">
+        <di:waypoint x="550" y="198"/>
+        <di:waypoint x="580" y="198"/>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_Oea555q_di" bpmnElement="Flow_Oea555q">
+        <di:waypoint x="185" y="225"/>
+        <di:waypoint x="580" y="225"/>
+        <di:waypoint x="580" y="198"/>
+      </bpmndi:BPMNEdge>
+
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
+"""; */
+
+
         String bpmnXml = """
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
